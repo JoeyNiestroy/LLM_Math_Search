@@ -5,6 +5,8 @@ This project trains a feedforward neural network (FFN) to grade mathematical rea
 
 ## Overview
 
+**This repository includes the initial dataset** (`Full_samples.jsonl`) so you can skip the data preparation step. You'll need to download Qwen 2.5 3B locally (instructions below).
+
 The pipeline consists of three main stages:
 
 1. **Hidden State Extraction**: Run inference on a large dataset of mathematical problems and solutions, extracting hidden states from each token position
@@ -48,16 +50,39 @@ pip install torch transformers numpy tqdm
 
 ## Reproduction Guide
 
-### Step 1: Prepare Your Dataset
+### Step 0: Setup
 
-Create a JSONL file with the following schema:
+#### Download the Dataset
+The initial dataset (`Full_samples.jsonl`) is provided in this repository. Place it in:
+```
+Data/Full_samples.jsonl
+```
+
+**Dataset Schema:**
 ```json
 {"question": "What is 2+2?", "answer": "2+2=4", "is_correct": true}
 ```
 
-Save as `Data/Full_samples.jsonl`
+#### Download Qwen 2.5 3B Model
 
-### Step 2: Extract Hidden States
+You'll need a local installation of Qwen 2.5 3B. Download it using Hugging Face:
+
+```bash
+# Option 1: Using huggingface-cli
+huggingface-cli download Qwen/Qwen2.5-3B-Instruct --local-dir /path/to/qwen2.5-3b
+
+# Option 2: Using Python
+from huggingface_hub import snapshot_download
+snapshot_download(repo_id="Qwen/Qwen2.5-3B-Instruct", local_dir="/path/to/qwen2.5-3b")
+```
+
+**Update the model path** in the scripts:
+- `Inference_Shard.py`: Set `MODEL_ID = "/path/to/qwen2.5-3b"`
+- `iter_solve.py`: Set `MODEL_ID = "/path/to/qwen2.5-3b"`
+
+**Note**: The model requires ~7GB of disk space. Make sure you have sufficient storage.
+
+### Step 1: Extract Hidden States
 
 **⚠️ WARNING: This generates 2+ TB of data and takes 10+ hours on an A100**
 
@@ -76,7 +101,7 @@ python Inference_Shard.py
 - `shard_XXXX.pt`: Hidden state shards
 - `catalog.jsonl`: Metadata for each sample
 
-### Step 3: Extract Last Hidden States
+### Step 2: Extract Last Hidden States
 
 This dramatically reduces storage requirements by keeping only the final token's hidden state:
 
@@ -96,7 +121,7 @@ python extract_last_hidden.py \
 
 **Output**: Creates `qwen3_last_hidden_sharded/` with batched tensor shards
 
-### Step 4: Train the Grading Model
+### Step 3: Train the Grading Model
 
 ```bash
 python train_ffn_sharded.py \
@@ -131,7 +156,7 @@ python train_ffn_sharded.py \
 - `checkpoints_ffn/best_model.pt`: Best model checkpoint
 - `checkpoints_ffn/history.json`: Training metrics
 
-### Step 5: Run Guided Generation
+### Step 4: Run Guided Generation
 
 ```bash
 python iter_solve.py \
@@ -192,8 +217,8 @@ For SLURM clusters, see:
 ## Performance Notes
 
 **Storage:**
-- Full hidden states: ~2 TB for 1M sequences
-- Last hidden only: ~30 GB for 1M sequences
+- Full hidden states: ~2 TB for 100k sequences
+- Last hidden only: ~50 GB for 100k sequences (40x reduction)
 
 **Training Speed:**
 - ~1-2 hours for 10-layer model on A100
@@ -206,4 +231,3 @@ For SLURM clusters, see:
 
 
 
-[Add your contact information]
