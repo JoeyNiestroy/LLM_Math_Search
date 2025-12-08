@@ -26,7 +26,7 @@ The pipeline consists of three main stages:
 ```
 ├── Data/
 │   └── Full_samples.jsonl      # Provided dataset with math problems and solutions
-|   └── Sample_Hard_Problems.csv #Eval dataset
+|   └── Sample_Hard_Problems.csv  #Eval dataset
 ├── Local_Models/
 │   └── qwen3_3b_local/           # Download Qwen 2.5 3B here (see Step 0)
 ├── Inference_Shard.py          # Extract hidden states from LLM during inference
@@ -34,8 +34,10 @@ The pipeline consists of three main stages:
 ├── optimized_dataset.py         # Dataset classes for loading sharded data
 ├── FFN_Model.py                 # FFN architectures (simple and residual)
 ├── train_ffn_sharded.py        # Main training script
-├── iter_solve.py                # Iterative generation with grading
+├── iter_solve.py                # Iterative generation with grading network (Greedy Search)
 ├── mcts_algo.py                 # (Optional) MCTS-based search algorithm
+├── run_guided_generation_batch.py  # Generates Greedy Search Eval dataset
+├── math_set_generation_script_GPU.py #Generates Unguided Search Eval dataset
 ├── model_training_bash_script.txt       # Example SLURM training jobs
 └── last_hidden_extraction_bash.txt      # Example SLURM extraction job
 ```
@@ -237,7 +239,7 @@ You now have the completed final evaluation dataset
 ## Dataset Classes
 
 - `ShardedHiddenStateDataset`: Full sequence hidden states (slow, not recommended for training)
-- `LazyShardedHiddenStateDataset`: LRU cache variant of above
+- `LazyShardedHiddenStateDataset`: Lazy cache variant of above, **USE THIS**
 - `LastHiddenFullDataset`: **Recommended** - Loads all last hidden states into RAM
 
 ## Training Configuration Examples
@@ -252,13 +254,13 @@ See `model_training_bash_script.txt` for various configurations:
 
 For SLURM clusters, see:
 - `last_hidden_extraction_bash.txt`: CPU job for extraction
-- `model_training_bash_script.txt`: GPU job for training multiple models
+- `model_training_bash_script.txt`: GPU job for training multiple models sequentially 
 
 ## Performance Notes
 
 **Storage:**
-- Full hidden states: ~2 TB for 100k sequences
-- Last hidden only: ~50 GB for 100k sequences (40x reduction)
+- Full hidden states: ~2 TB for 1M sequences
+- Last hidden only: ~30 GB for 1M sequences
 
 **Training Speed:**
 - ~1-2 hours for 10-layer model on A100
