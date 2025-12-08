@@ -70,7 +70,7 @@ eval_set = ds["Sample_Hard_Problems"]
 ```
 **Dataset Schema:**
 ```json
-{"question": "What is 2+2?", "answer": "2+2=4", "is_correct": true}
+{"question": "What is 2+2?", "answer": "2+2=4", "is_correct": true , "source": "OpenMath" }
 ```
 
 #### Download Qwen 2.5 3B Model
