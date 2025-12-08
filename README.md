@@ -1,5 +1,5 @@
 # LLM_Math_Search
-# LLM Hidden State Grading for Iterative Mathematical Reasoning
+# Learning Grading Networks from LLM Hidden States for Guided Mathematical Reasoning
 
 This project trains a feedforward neural network (FFN) to grade mathematical reasoning quality by analyzing the last hidden states from a language model. The grader is then used to guide iterative generation, selecting better reasoning paths at each step.
 
