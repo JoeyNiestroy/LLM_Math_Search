@@ -159,29 +159,66 @@ python train_ffn_sharded.py \
 - `checkpoints_ffn/best_model.pt`: Best model checkpoint
 - `checkpoints_ffn/history.json`: Training metrics
 
-### Step 4: Run Guided Generation
+### Step 4: Generate Evaluation Data
 
+
+
+#### 4a. Run Unguided Baseline
 ```bash
-python iter_solve.py \
+python math_set_generation_script_GPU.py
+```
+
+**What it does:**
+- Loads problems from `Data/Sample_Hard_Problems.csv`
+- Generates solutions using the base LLM
+- Saves sharded outputs to `qwen3_hidden_states_sample_problems/` in same schema as intial inference
+
+**Configuration** (edit in script):
+- `MATH_PROBLEMS`: Adjust the slice `[0:1000]` to control number of problems
+- `MAX_NEW_TOKENS`: Maximum tokens to generate per solution (default: 2048)
+- `TEMPERATURE`: Sampling temperature (default: 0.7)
+- `BATCH_SIZE`: Adjust based on GPU memory
+
+**Output**: Creates sharded hidden states for evaluation
+
+#### 4b. Run Batch Guided Generation
+```bash
+python run_guided_generation_batch.py \
     --checkpoint checkpoints_ffn/best_model.pt \
-    --problem "Solve for x: 2x + 5 = 13" \
+    --num_problems 1000 \
     --k 5 \
     --max_new 150 \
     --threshold 0.95 \
-    --max_iters 30
+    --max_iters 30 \
+    --output_dir guided_generation_results \
+    --verbose
 ```
 
 **Arguments:**
+- `--num_problems`: Number of problems to process from the CSV
 - `--k`: Number of candidate completions per iteration
 - `--max_new`: Maximum new tokens per iteration
 - `--threshold`: Score threshold to stop generation (0-1)
 - `--max_iters`: Maximum number of iterations
+- `--verbose`: Print detailed logs for each problem
 
 **How it works:**
-1. Generate k candidate continuations
-2. Grade each candidate using the FFN
-3. Select the best one and continue
-4. Stop when score exceeds threshold or EOS is generated
+1. Loads problems from `Data/Sample_Hard_Problems.csv`
+2. For each problem:
+   - Generate k candidate continuations
+   - Grade each candidate using the FFN
+   - Select the best one and continue
+   - Stop when score exceeds threshold or EOS is generated
+3. Saves results incrementally to JSONL file
+
+**Output**: 
+- `guided_generation_results/results_TIMESTAMP.jsonl`: Individual problem results
+- `guided_generation_results/summary_TIMESTAMP.json`: Aggregate statistics
+
+### Step 5:
+
+You now have the completed final evaluation dataset
+
 
 ## Model Architectures
 
