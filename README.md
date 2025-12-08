@@ -23,8 +23,12 @@ The pipeline consists of three main stages:
 - **Iterative Generation**: Beam search variant that grades partial solutions and selects the best continuation
 
 ## Project Structure
-
 ```
+├── Data/
+│   └── Full_samples.jsonl      # Provided dataset with math problems and solutions
+|   └── Sample_Hard_Problems.csv #Eval dataset
+├── Local_Models/
+│   └── qwen3_3b_local/           # Download Qwen 2.5 3B here (see Step 0)
 ├── Inference_Shard.py          # Extract hidden states from LLM during inference
 ├── extract_last_hidden.py      # Extract final hidden state from each sequence
 ├── optimized_dataset.py         # Dataset classes for loading sharded data
@@ -35,7 +39,6 @@ The pipeline consists of three main stages:
 ├── model_training_bash_script.txt       # Example SLURM training jobs
 └── last_hidden_extraction_bash.txt      # Example SLURM extraction job
 ```
-
 ## Requirements
 
 ```bash
