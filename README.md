@@ -254,7 +254,7 @@ See `model_training_bash_script.txt` for various configurations:
 
 For SLURM clusters, see:
 - `last_hidden_extraction_bash.txt`: CPU job for extraction
-- `model_training_bash_script.txt`: GPU job for training multiple models sequentially 
+- `model_training_bash_script.txt`: GPU job for training multiple models sequentially, exactly the same setup as project
 
 ## Performance Notes
 
