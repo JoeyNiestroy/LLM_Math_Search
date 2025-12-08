@@ -5,8 +5,6 @@ This project trains a feedforward neural network (FFN) to grade mathematical rea
 
 ## Overview
 
-**This repository includes the initial dataset** (`Full_samples.jsonl`) so you can skip the data preparation step. You'll need to download Qwen 2.5 3B locally (instructions below).
-
 The pipeline consists of three main stages:
 
 1. **Hidden State Extraction**: Run inference on a large dataset of mathematical problems and solutions, extracting hidden states from each token position
@@ -44,7 +42,7 @@ The pipeline consists of three main stages:
 ## Requirements
 
 ```bash
-pip install torch transformers numpy tqdm
+pip install torch transformers numpy tqdm datasets
 ```
 
 **Hardware Requirements:**
@@ -55,14 +53,21 @@ pip install torch transformers numpy tqdm
 
 ## Reproduction Guide
 
-### Step 0: Setup
+### Step 0: Setup Dataset and Model
 
 #### Download the Dataset
-The initial dataset (`Full_samples.jsonl`) is provided in this repository. Place it in:
+The initial dataset (`Full_samples.jsonl`) is provided in a huggingface repo. Place it in:
 ```
 Data/Full_samples.jsonl
 ```
+You can download it using the code below
+```python
+from datasets import load_dataset
 
+ds = load_dataset("JoeyNiestroy/Stat_Comp_Project_Files")
+samples = ds["Full_samples"]
+eval_set = ds["Sample_Hard_Problems"]
+```
 **Dataset Schema:**
 ```json
 {"question": "What is 2+2?", "answer": "2+2=4", "is_correct": true}
@@ -263,11 +268,10 @@ For SLURM clusters, see:
 - Last hidden only: ~30 GB for 1M sequences
 
 **Training Speed:**
-- ~1-2 hours for 10-layer model on A100
-- ~4-6 hours for 20-layer model on A40
+- ~4-6 hours for the selected models on A100
 
 **Inference:**
-- Guided generation: ~2-5 seconds per iteration (k=5)
+- Guided generation: ~2-5 seconds per iteration (k=5 , new_tokens = 150)
 - Depends heavily on model size and max_new_tokens
 
 
