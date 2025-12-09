@@ -15,7 +15,7 @@ The pipeline consists of three main stages:
 ## Project Structure
 ```
 ├── Data/
-│   └── Full_samples.jsonl      # Provided dataset with math problems and solutions (see step 1)
+│   └── Full_samples.jsonl      # Provided dataset with math problems and solutions (see step 0)
 |   └── Sample_Hard_Problems.csv  #Eval dataset
 ├── Local_Models/
 │   └── qwen3_3b_local/           # Download Qwen 2.5 3B here (see Step 0)
