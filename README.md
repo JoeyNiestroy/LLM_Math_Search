@@ -70,10 +70,10 @@ Or use the attached env yaml
 
 ### Step 0: Setup Dataset and Model
 
-#### Download the Dataset
+#### Download the Datasets
 The initial dataset (`Full_samples.jsonl`) is provided in a huggingface repo. Place it in:
 ```
-Data/Full_samples.jsonl
+Data/Full_samples.jsonl and /Sample_Hard_Problems.csv
 ```
 You can download it using the code below
 ```python
@@ -81,13 +81,24 @@ from datasets import load_dataset
 
 ds = load_dataset("JoeyNiestroy/Stat_Comp_Project_Files")
 samples = ds["train"]
+
+
+from huggingface_hub import hf_hub_download
+
+hf_hub_download(
+    repo_id="JoeyNiestroy/Stat_Comp_Project_Files",
+    filename="Sample_Hard_Problems.csv",
+    repo_type="dataset",
+    local_dir="Data"
+)
+
 ```
 **Dataset Schema:**
 ```json
 {"question": "What is 2+2?", "answer": "2+2=4", "is_correct": true , "source": "OpenMath" }
 ```
 
-The Eval set is also stored in the huggingface repo, you can download it directly from there: https://huggingface.co/datasets/JoeyNiestroy/Stat_Comp_Project_Files/tree/main
+Both stored in the huggingface repo, so if there are issues you can download it directly from there: https://huggingface.co/datasets/JoeyNiestroy/Stat_Comp_Project_Files/tree/main
 
 #### Download Qwen 2.5 3B Model
 
