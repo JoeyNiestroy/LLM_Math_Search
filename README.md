@@ -35,8 +35,6 @@ The pipeline consists of three main stages:
 │   └── last_hidden_extraction_bash.txt      # Example SLURM extraction job
 └── enviroment.yml
 ```
-## Requirements
-
 
 ## Requirements
 
