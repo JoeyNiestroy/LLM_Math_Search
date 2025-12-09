@@ -5,6 +5,7 @@ THIS WILL GENERATE 2+ TBs of data and TAKE 10+ HOURS on an A100.
 
 We induce a random order here, to avoid problems down the line with random sampling from a large dataset. For the project it was fixed at random_state = 42
 
+NEW ADDTION 12/9/2024: Added END_EARLY logic for easier testing
 """
 import json
 from pathlib import Path
@@ -17,7 +18,7 @@ import numpy as np
 MODEL_ID = "Local_Models/qwen3_3b_local"
 INPUT_PATH = "Data/Full_samples.jsonl"
 OUT_DIR = Path("qwen3_hidden_states_open_math_sharded")
-
+END_EARLY = False
 DTYPE = torch.float16
 BATCH_SIZE = 12
 MAX_LEN = 4096
@@ -206,8 +207,12 @@ with torch.no_grad():
         
         if (b_ix + 1) % 10 == 0:
             print(f"Processed {(b_ix + 1) * BATCH_SIZE} samples")
+        
+        if END_EARLY and b_ix > 10:
+            break
 
 # Finalize
 total = shard_writer.finalize()
 print(f"saved {total} samples to {OUT_DIR.resolve()}")
+
 print(f"Data saved in {shard_writer.shard_idx} shard files")
