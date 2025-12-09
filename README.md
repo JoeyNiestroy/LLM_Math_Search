@@ -79,13 +79,14 @@ You can download it using the code below
 from datasets import load_dataset
 
 ds = load_dataset("JoeyNiestroy/Stat_Comp_Project_Files")
-samples = ds["Full_samples"]
-eval_set = ds["Sample_Hard_Problems"]
+samples = ds["train"]
 ```
 **Dataset Schema:**
 ```json
 {"question": "What is 2+2?", "answer": "2+2=4", "is_correct": true , "source": "OpenMath" }
 ```
+
+The Eval set is also stored in the huggingface repo, you can download it directly from there: https://huggingface.co/datasets/JoeyNiestroy/Stat_Comp_Project_Files/tree/main
 
 #### Download Qwen 2.5 3B Model
 
