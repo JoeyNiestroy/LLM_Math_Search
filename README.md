@@ -12,14 +12,6 @@ The pipeline consists of three main stages:
 3. **FFN Training**: Train a binary classifier on these hidden states to predict solution correctness
 4. **Guided Generation**: Use the trained grader to iteratively generate and select high-quality reasoning steps
 
-## Key Features
-
-- **Sharded Storage**: Handles 2+ TB datasets efficiently using PyTorch shard files
-- **Progressive Prefix Sampling**: Creates training samples from intermediate reasoning steps (every k tokens)
-- **Residual FFN Architecture**: Deep feedforward network with residual connections and proper initialization
-- **Mixed Precision Training**: FP16 training with gradient accumulation for efficient GPU utilization
-- **Iterative Generation**: Beam search variant that grades partial solutions and selects the best continuation
-
 ## Project Structure
 ```
 ├── Data/
