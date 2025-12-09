@@ -259,9 +259,9 @@ You now have the completed final evaluation dataset
 
 ## Dataset Classes
 
-- `ShardedHiddenStateDataset`: Full sequence hidden states (slow, not recommended for training)
-- `LazyShardedHiddenStateDataset`: Lazy cache variant of above, **USE THIS**
-- `LastHiddenFullDataset`: **Recommended** - Loads all last hidden states into RAM
+- `ShardedHiddenStateDataset`: Full sequence hidden states (slow, not recommended for training. Defaults to loading all shards)
+- `LazyShardedHiddenStateDataset`: Lazy cache variant of above, **USE THIS IF YOU REALLY NEED TO ACCESS**
+- `LastHiddenFullDataset`: **Recommended post step 2** - Loads all last hidden states into RAM
 
 ## Training Configuration Examples
 
