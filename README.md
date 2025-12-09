@@ -38,6 +38,7 @@ The pipeline consists of three main stages:
 ├── math_set_generation_script_GPU.py #Generates Unguided Search Eval dataset
 ├── model_training_bash_script.txt       # Example SLURM training jobs
 └── last_hidden_extraction_bash.txt      # Example SLURM extraction job
+└── enviroment.yml
 ```
 ## Requirements
 
