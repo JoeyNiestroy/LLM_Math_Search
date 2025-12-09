@@ -25,11 +25,14 @@ The pipeline consists of three main stages:
 ├── FFN_Model.py                 # FFN architectures (simple and residual)
 ├── train_ffn_sharded.py        # Main training script
 ├── iter_solve.py                # Iterative generation with grading network (Greedy Search)
-├── mcts_algo.py                 # (Optional) MCTS-based search algorithm
 ├── run_guided_generation_batch.py  # Generates Greedy Search Eval dataset
 ├── math_set_generation_script_GPU.py #Generates Unguided Search Eval dataset
-├── model_training_bash_script.txt       # Example SLURM training jobs
-└── last_hidden_extraction_bash.txt      # Example SLURM extraction job
+├── Bonus_Tracks/
+│   └── mcts_algo.py                 # (Optional) MCTS-based search algorithm
+│   └── Models_and_Utils      # (Optional/Unused) LLama style encoder for full sequence modeling
+├── Bash_Scripts/
+│   └── model_training_bash_script.txt       # Example SLURM training jobs
+│   └── last_hidden_extraction_bash.txt      # Example SLURM extraction job
 └── enviroment.yml
 ```
 ## Requirements
