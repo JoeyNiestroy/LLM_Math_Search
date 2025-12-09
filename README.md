@@ -122,7 +122,7 @@ snapshot_download(repo_id="Qwen/Qwen2.5-3B-Instruct", local_dir="/path/to/qwen2.
 ### Step 1: Extract Hidden States
 
 **⚠️ WARNING: This generates 2+ TB of data and takes 10+ hours on an A100**
-**Note: You can just throw a break in the main loop to exit early safely with a limited subset**
+**Note: You can just set END_EARLY to True and get a very small subset**
 
 ```bash
 python Inference_Shard.py
