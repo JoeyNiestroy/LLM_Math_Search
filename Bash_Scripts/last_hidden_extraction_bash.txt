@@ -1,0 +1,28 @@
+#!/bin/bash
+
+#SBATCH --time=3:00:00   # job time limit
+#SBATCH --nodes=1   # number of nodes
+#SBATCH --ntasks-per-node=1   # number of tasks per node
+#SBATCH --cpus-per-task=1   # number of CPU cores per task
+#SBATCH --mem=64G
+#SBATCH --partition=standard   # partition
+#SBATCH -J "dataset_test"   # job name
+#SBATCH --mail-user=#######@virginia.edu   # email address
+#SBATCH --mail-type=BEGIN,END,FAIL
+#SBATCH --account=#########   # allocation name
+
+module purge
+
+
+module load miniforge
+
+
+source activate jn_ds
+
+
+python extract_last_hidden.py \
+    --input_dir qwen3_hidden_states_open_math_sharded \
+    --output_dir qwen3_last_hidden_sharded \
+    --samples_per_shard 25000
+
+conda deactivate
