@@ -15,10 +15,16 @@ The pipeline consists of three main stages:
 ## Project Structure
 ```
 ├── Data/
-│   └── Full_samples.jsonl      # Provided dataset with math problems and solutions
+│   └── Full_samples.jsonl      # Provided dataset with math problems and solutions (see step 1)
 |   └── Sample_Hard_Problems.csv  #Eval dataset
 ├── Local_Models/
 │   └── qwen3_3b_local/           # Download Qwen 2.5 3B here (see Step 0)
+├── Bonus_Tracks/
+│   └── mcts_algo.py                 # (Optional) MCTS-based search algorithm
+│   └── Models_and_Utils      # (Optional/Unused) LLama style encoder for full sequence modeling
+├── Bash_Scripts/
+│   └── model_training_bash_script.txt       # Example SLURM training jobs
+│   └── last_hidden_extraction_bash.txt      # Example SLURM extraction job
 ├── Inference_Shard.py          # Extract hidden states from LLM during inference
 ├── extract_last_hidden.py      # Extract final hidden state from each sequence
 ├── optimized_dataset.py         # Dataset classes for loading sharded data
@@ -27,12 +33,6 @@ The pipeline consists of three main stages:
 ├── iter_solve.py                # Iterative generation with grading network (Greedy Search)
 ├── run_guided_generation_batch.py  # Generates Greedy Search Eval dataset
 ├── math_set_generation_script_GPU.py #Generates Unguided Search Eval dataset
-├── Bonus_Tracks/
-│   └── mcts_algo.py                 # (Optional) MCTS-based search algorithm
-│   └── Models_and_Utils      # (Optional/Unused) LLama style encoder for full sequence modeling
-├── Bash_Scripts/
-│   └── model_training_bash_script.txt       # Example SLURM training jobs
-│   └── last_hidden_extraction_bash.txt      # Example SLURM extraction job
 └── enviroment.yml
 ```
 
