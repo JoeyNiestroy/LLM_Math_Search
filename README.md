@@ -280,8 +280,8 @@ For SLURM clusters, see:
 ## Performance Notes
 
 **Storage:**
-- Full hidden states: ~2 TB for 1M sequences
-- Last hidden only: ~30 GB for 1M sequences
+- Full hidden states: ~2 TB for 2.1M sequences
+- Last hidden only: ~30 GB for 2.1M sequences
 
 **Training Speed:**
 - ~4-6 hours for the selected models on A100
