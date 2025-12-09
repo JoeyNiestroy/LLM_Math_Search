@@ -18,8 +18,6 @@ import torch.nn.functional as F
 import json
 from pathlib import Path
 from typing import List, Optional, Sequence, Tuple, Dict, Any, Iterable
-
-import torch
 from torch.utils.data import Dataset, DataLoader
 from torch.nn.utils.rnn import pad_sequence
 
@@ -570,3 +568,4 @@ class LlamaStyleBinaryClassifier(nn.Module):
 #             result[key] = [item[key] for item in batch]
     
 #     return result
+
