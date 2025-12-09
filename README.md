@@ -41,9 +41,30 @@ The pipeline consists of three main stages:
 ```
 ## Requirements
 
+
+## Requirements
+
+To run the project, install the following Python dependencies:
+
 ```bash
-pip install torch transformers numpy tqdm datasets
+pip install \
+    torch==2.5.1 \
+    triton==3.1.0 \
+    transformers \
+    tokenizers \
+    safetensors \
+    datasets \
+    numpy \
+    pandas \
+    tqdm \
+    huggingface_hub \
+    pyarrow==21.0.0 \
+    duckdb \
+    regex \
+    PyYAML
+
 ```
+Or use the attached env yaml
 
 **Hardware Requirements:**
 - Stage 1 (Inference): A100 GPU (10+ hours for large datasets)
